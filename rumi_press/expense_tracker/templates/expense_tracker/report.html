@@ -1,0 +1,36 @@
+{% extends 'expense_tracker/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Book Distribution Expenses by Category</h1>
+
+    <div class="card p-3">
+        <canvas id="expenseChart"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('expenseChart').getContext('2d');
+        var expenseChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ labels| safe }},
+        datasets: [{
+            label: 'Distribution Expenses',
+            data: {{ data| safe }},
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+                }]
+            },
+        options: {
+            responsive: true,
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+        });
+    </script>
+</div>
+{% endblock %}
