@@ -1,0 +1,16 @@
+{% extends 'expense_tracker/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ book.title }}</h1>
+    <p><strong>Subtitle:</strong> {{ book.subtitle }}</p>
+    <p><strong>Authors:</strong> {{ book.authors.all|join:", " }}</p>
+    <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+    <p><strong>Published Date:</strong> {{ book.published_date }}</p>
+    <p><strong>Category:</strong> {{ book.category.name }}</p>
+    <p><strong>Distribution Expense:</strong> ${{ book.distribution_expense }}</p>
+
+    <a href="{% url 'book_update' book.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'book_list' %}" class="btn btn-secondary">Back to List</a>
+</div>
+{% endblock %}

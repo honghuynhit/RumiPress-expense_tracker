@@ -1,0 +1,35 @@
+{% extends 'expense_tracker/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-3">Manage Books</h1>
+    <a href="{% url 'book_create' %}" class="btn btn-primary mb-3">Add New Book</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Publisher</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in page_obj %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.publisher }}</td>
+                <td>{{ book.category.name }}</td>
+                <td>
+                    <a href="{% url 'book_update' book.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'book_delete' book.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    {% include 'expense_tracker/pagination.html' %}
+</div>
+{% endblock %}
