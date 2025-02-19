@@ -28,7 +28,7 @@ def report_view(request):
 
 def book_list(request):
     books = Book.objects.all()
-    paginator = Paginator(books, 5)  # Show 5 books per page
+    paginator = Paginator(books, 20)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -63,54 +63,75 @@ def book_delete(request, pk):
         return redirect("book_list")
     return render(request, "expense_tracker/book_confirm_delete.html", {"book": book})
 
-# Manage Authors
+# Author Views
 def author_list(request):
     authors = Author.objects.all()
-    paginator = Paginator(authors, 5)  # Show 5 authors per page
-    page_number = request.GET.get("page")
+    paginator = Paginator(authors, 20)
+    page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-    return render(request, "expense_tracker/author_list.html", {"page_obj": page_obj})
+    return render(request, 'expense_tracker/author_list.html', {'page_obj': page_obj})
 
 def author_create(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = AuthorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("author_list")
+            return redirect('author_list')
     else:
         form = AuthorForm()
-    return render(request, "expense_tracker/author_form.html", {"form": form})
+        print("form: ", form)
+    return render(request, 'expense_tracker/author_form.html', {'form': form})
+
+def author_update(request, pk):
+    author = get_object_or_404(Author, pk=pk)
+    if request.method == 'POST':
+        form = AuthorForm(request.POST, instance=author)
+        if form.is_valid():
+            form.save()
+            return redirect('author_list')
+    else:
+        form = AuthorForm(instance=author)
+    return render(request, 'expense_tracker/author_form.html', {'form': form})
 
 def author_delete(request, pk):
     author = get_object_or_404(Author, pk=pk)
-    if request.method == "POST":
+    if request.method == 'POST':
         author.delete()
-        return redirect("author_list")
-    return render(request, "expense_tracker/author_confirm_delete.html", {"author": author})
+        return redirect('author_list')
+    return render(request, 'expense_tracker/author_confirm_delete.html', {'author': author})
 
-# Manage Categories
+# Category Views
 def category_list(request):
     categories = Category.objects.all()
-    paginator = Paginator(categories, 5)  # Show 5 categories per page
-    page_number = request.GET.get("page")
+    paginator = Paginator(categories, 20)
+    page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-    return render(request, "expense_tracker/category_list.html", {"page_obj": page_obj})
+    return render(request, 'expense_tracker/category_list.html', {'page_obj': page_obj})
 
 def category_create(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("category_list")
+            return redirect('category_list')
     else:
         form = CategoryForm()
-    return render(request, "expense_tracker/category_form.html", {"form": form})
+    return render(request, 'expense_tracker/category_form.html', {'form': form})
+
+def category_update(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'expense_tracker/category_form.html', {'form': form})
 
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
-    if request.method == "POST":
+    if request.method == 'POST':
         category.delete()
-        return redirect("category_list")
-    return render(request, "expense_tracker/category_confirm_delete.html", {"category": category})
+        return redirect('category_list')
+    return render(request, 'expense_tracker/category_confirm_delete.html', {'category': category})

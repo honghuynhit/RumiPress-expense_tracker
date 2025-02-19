@@ -9,12 +9,17 @@
         <thead class="table-dark">
             <tr>
                 <th>Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for category in page_obj %}
             <tr>
                 <td>{{ category.name }}</td>
+                <td>
+                    <a href="{% url 'category_update' category.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'category_delete' category.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

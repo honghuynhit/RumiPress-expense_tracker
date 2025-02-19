@@ -9,12 +9,17 @@
         <thead class="table-dark">
             <tr>
                 <th>Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for author in page_obj %}
             <tr>
                 <td>{{ author.name }}</td>
+                <td>
+                    <a href="{% url 'author_update' author.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'author_delete' author.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
